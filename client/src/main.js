@@ -5,6 +5,15 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
+const my_axios = axios.create({
+    baseURL:'http://localhost:3000/api',
+    headers:{
+        Authorization: "Bearer " + localStorage.getItem('token')
+    }
+})
+
+Vue.prototype.$http = my_axios;
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
