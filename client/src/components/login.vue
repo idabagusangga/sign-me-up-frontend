@@ -29,23 +29,22 @@ export default {
     },
     methods : {
         login(){
-            // axios.post('/',{
-            //     email : req.body.email,
-            //     password : req.body.password
-            // })
-            // .then(response=>{
+            this.$http.post('/',{
+                email : req.body.email,
+                password : req.body.password
+            })
+            .then(response=>{
                  
-                //  if(response.token){
-                     localStorage.setItem("token",'initokenvalid')
+                
                      this.$router.push('/event')
-                //  }
+                 
                     
                  
-            // })
-            // .catch(err=>{
-            //     
-            //     this.errorMsg = err
-            // })
+            })
+            .catch(err=>{
+                
+                this.errorMsg = err
+            })
         }
     }
 }

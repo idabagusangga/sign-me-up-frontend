@@ -1,19 +1,23 @@
 <template lang="html">
-  <div class="container">
-      <h3></h3>
-      
-      <form v-on:submit="login">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+  <div class="">
+      <!-- <h1>{{eventId}}</h1> -->
+      <form class="" @submit="createGuest" >
+          <div class="form-group container">
+              <label for="exampleInputEmail1">Name</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please enter your name" v-model="guest.name">
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <div class="form-group container">
+              <label for="exampleInputEmail1">Email</label>
+              <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="guest.email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
-          <input type="submit" value="Submit"> 
+          <div class="form-group container">
+              <label for="exampleTextarea">Event</label>
+              <textarea class="form-control" id="exampleTextarea" rows="3" v-model="guest.acara"></textarea>
+          </div>
+          <input type="submit" value="Create">
+          
       </form>
-      
   </div>
 </template>
 
@@ -21,31 +25,30 @@
 export default {
     data(){
         return{
-            msg:'Welcome to Sign Me Up',
-            errorMsg:"",
-            show:true
-            
+            guest :{
+                name:"",
+                email:"",
+                acara:""
+            }
         }
     },
     methods : {
-        login(){
-            // axios.post('/',{
-            //     email : req.body.email,
-            //     password : req.body.password
-            // })
-            // .then(response=>{
-                 
-                //  if(response.token){
-                     localStorage.setItem("token",'initokenvalid')
-                     this.$router.push('/event')
-                //  }
-                    
-                 
-            // })
-            // .catch(err=>{
-            //     
-            //     this.errorMsg = err
-            // })
+        createGuest(){
+            let token = localStorage.getItem('token')
+            let options = {
+                headers: {
+                    Authorization : "Bearer " + token
+                }
+            }
+            axios.post('/guests',this.guest,options)
+            .then(response=>{
+                //reload
+                location.ready()
+            })
+            .catch(err=>{
+                console.log(err);
+                this.$router.push('/login')
+            })
         }
     }
 }
